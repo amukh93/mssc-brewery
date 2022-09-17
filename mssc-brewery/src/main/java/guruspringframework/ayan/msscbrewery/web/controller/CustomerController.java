@@ -17,9 +17,19 @@ import guruspringframework.ayan.msscbrewery.web.module.CustomerDTO;
 @RequestMapping("api/v1/customer")
 public class CustomerController {
 	
-	@Autowired
+	
 	private CustomerService customerService;
 	
+	/*
+	 * note : if only constructor present, spring autowires it itself and @Autowired
+	 * not needed, the program will run fine if @Autowire removed
+	 */
+	@Autowired
+	public CustomerController(CustomerService customerService) {
+		super();
+		this.customerService = customerService;
+	}
+
 	@GetMapping({"/{custId}"})
 	private ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("custId") UUID custId){
 		return new ResponseEntity<CustomerDTO>(customerService.getCustomerByID(custId), HttpStatus.OK);
